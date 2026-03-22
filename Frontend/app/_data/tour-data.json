@@ -1,0 +1,44 @@
+[
+    {
+        "id": "1",
+        "title": "Create Category & Pin",
+        "description": "Learn how to create a new category and drop your first pin on the map. Categories help you organize your locations into logical groups like offices, warehouses, or field sites.",
+        "videoUrl": "/videos/create-category&pin.mp4"
+    },
+    {
+        "id": "2",
+        "title": "Update & Delete Pins",
+        "description": "Manage your existing pins — edit their details, change categories, or remove them from the map entirely. Keep your data accurate and up-to-date.",
+        "videoUrl": "/videos/update&delete-pins.mp4"
+    },
+    {
+        "id": "3",
+        "title": "Show All Pins",
+        "description": "View all your deployed pins in one consolidated list. Quickly browse, search, and jump to any location on the map.",
+        "videoUrl": "/videos/show-all-pins.mp4"
+    },
+    {
+        "id": "4",
+        "title": "Delete Category",
+        "description": "Remove an entire category and all its associated pins from your map. Use this to clean up unused or outdated groupings.",
+        "videoUrl": "/videos/delete-category.mp4"
+    },
+    {
+        "id": "5",
+        "title": "Reset Map Position",
+        "description": "Fly back to your default map view instantly. You can also set a custom default position using the crosshair button.",
+        "videoUrl": "/videos/reset-position.mp4"
+    },
+    {
+        "id": "6",
+        "title": "Zoom In & Navigate",
+        "description": "Zoom into specific regions to see pin density and explore areas in detail. Use scroll or pinch gestures for smooth navigation.",
+        "videoUrl": "/videos/zoom-in.mp4"
+    },
+    {
+        "id": "7",
+        "title": "Submit Feedback",
+        "description": "Share your thoughts, report bugs, or suggest new features directly from the app. Your feedback helps us improve MapFlow.",
+        "videoUrl": "/videos/feedback.mp4"
+    }
+]

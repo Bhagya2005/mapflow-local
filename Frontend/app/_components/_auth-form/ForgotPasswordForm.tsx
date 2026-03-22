@@ -2,21 +2,21 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, ShieldCheck, KeyRound, Eye, EyeOff, RotateCcw } from "lucide-react";
-import { useAuthStore } from "@/stores/authStore"; 
+import { useAuthStore } from "@/stores/authStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function ForgotPassword() {
   const router = useRouter();
   const { sendOtp, verifyOtp, resetPassword, loading } = useAuthStore() as any;
-  
+
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  const [timer, setTimer] = useState(120); 
+  const [timer, setTimer] = useState(120);
   const [canResend, setCanResend] = useState(false);
 
   useEffect(() => {
@@ -68,64 +68,64 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-[500px] p-6">
-      <div className="w-full max-w-md p-8 border border-white/5 rounded-[2.5rem] shadow-2xl bg-[#0a0a0a]/80 backdrop-blur-xl">
+    <div className="flex items-center justify-center p-0 sm:p-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="w-full max-w-md p-6 sm:p-8 border border-slate-200 rounded-3xl sm:rounded-[2.5rem] shadow-xl shadow-slate-200/50 bg-white">
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.form key="s1" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} onSubmit={handleEmailSubmit} className="space-y-6">
               <div className="space-y-2">
-                <div className="w-12 h-12 bg-[#7c5cfc]/10 rounded-2xl flex items-center justify-center mb-4">
-                    <Mail className="text-[#7c5cfc]" size={24}/>
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#7c5cfc]/10 rounded-2xl flex items-center justify-center mb-4 border border-[#7c5cfc]/20 text-[#7c5cfc]">
+                  <Mail size={20} className="md:w-6 md:h-6" />
                 </div>
-                <h1 className="text-2xl font-black text-white uppercase tracking-tight">Recovery</h1>
-                <p className="text-white/40 text-sm">Enter your email to receive a 4-digit security code.</p>
+                <h1 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tight">Recovery</h1>
+                <p className="text-slate-500 text-sm font-medium">Enter your email to receive a 4-digit security code.</p>
               </div>
-              <input type="email" placeholder="name@company.com" className="w-full bg-white/5 p-4 rounded-2xl text-white border border-white/10 outline-none focus:border-[#7c5cfc]/50 transition-all placeholder:text-white/20" value={email} onChange={(e)=>setEmail(e.target.value)} required />
-              <button disabled={loading} className="w-full bg-[#7c5cfc] p-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-white active:scale-95 disabled:opacity-50 transition-all">
+              <input type="email" placeholder="name@company.com" className="w-full bg-white p-3.5 md:p-4 rounded-2xl text-slate-900 border border-slate-200 outline-none focus:ring-2 focus:ring-[#7c5cfc]/20 focus:border-[#7c5cfc]/50 transition-all placeholder:text-slate-400 shadow-sm text-sm" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <button disabled={loading} className="w-full bg-[#7c5cfc] py-3.5 md:py-4 rounded-2xl font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-white active:scale-95 disabled:opacity-50 transition-all shadow-lg shadow-[#7c5cfc]/25 hover:bg-[#6b4dfa]">
                 {loading ? "Processing..." : "Generate OTP"}
               </button>
-              <div className="text-center"><Link href="/login" className="text-white/20 text-[10px] font-bold uppercase tracking-widest hover:text-[#7c5cfc] transition-colors">Back to Login</Link></div>
+              <div className="text-center mt-6"><Link href="/login" className="text-slate-400 text-[10px] font-bold uppercase tracking-widest hover:text-[#7c5cfc] transition-colors">Back to Login</Link></div>
             </motion.form>
           )}
 
           {step === 2 && (
             <motion.form key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} onSubmit={handleOtpSubmit} className="space-y-6">
               <div className="space-y-2">
-                <div className="w-12 h-12 bg-[#7c5cfc]/10 rounded-2xl flex items-center justify-center mb-4">
-                    <ShieldCheck className="text-[#7c5cfc]" size={24}/>
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#7c5cfc]/10 rounded-2xl flex items-center justify-center mb-4 border border-[#7c5cfc]/20 text-[#7c5cfc]">
+                  <ShieldCheck size={20} className="md:w-6 md:h-6" />
                 </div>
-                <h1 className="text-2xl font-black text-white uppercase tracking-tight">Verify</h1>
-                <p className="text-white/40 text-sm">We've sent a code to <span className="text-white/80">{email}</span></p>
+                <h1 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tight">Verify</h1>
+                <p className="text-slate-500 text-sm font-medium">We've sent a code to <span className="text-slate-900 font-bold">{email}</span></p>
               </div>
               <div className="space-y-4">
-                <input type="text" placeholder="0 0 0 0" maxLength={4} className="w-full bg-white/5 p-4 rounded-2xl text-white text-center text-3xl font-black tracking-[0.5em] border border-white/10 outline-none focus:border-[#7c5cfc]/50" value={otp} onChange={(e)=>setOtp(e.target.value)} required />
-                <div className="flex justify-between items-center bg-white/[0.02] p-3 rounded-xl border border-white/5">
-                  <span className="text-[10px] text-white/30 font-black uppercase tracking-widest">{formatTime(timer)} remaining</span>
-                  <button type="button" onClick={handleResendOtp} disabled={!canResend || loading} className={`text-[10px] font-black uppercase tracking-widest flex items-center gap-2 ${canResend ? 'text-[#7c5cfc]' : 'text-white/10'}`}>
+                <input type="text" placeholder="0 0 0 0" maxLength={4} className="w-full bg-white p-3.5 md:p-4 rounded-2xl text-slate-900 text-center text-2xl md:text-3xl font-black tracking-[0.5em] border border-slate-200 outline-none focus:ring-2 focus:ring-[#7c5cfc]/20 focus:border-[#7c5cfc]/50 shadow-sm placeholder:text-slate-300" value={otp} onChange={(e) => setOtp(e.target.value)} required />
+                <div className="flex justify-between items-center bg-slate-50 p-2.5 md:p-3 rounded-xl border border-slate-200 shadow-sm">
+                  <span className="text-[9px] md:text-[10px] text-slate-500 font-black uppercase tracking-widest">{formatTime(timer)} remaining</span>
+                  <button type="button" onClick={handleResendOtp} disabled={!canResend || loading} className={`text-[9px] md:text-[10px] font-black uppercase tracking-widest flex items-center gap-2 ${canResend ? 'text-[#7c5cfc] hover:text-[#6b4dfa]' : 'text-slate-400'}`}>
                     <RotateCcw size={12} /> Resend
                   </button>
                 </div>
               </div>
-              <button disabled={loading} className="w-full bg-[#7c5cfc] p-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-white active:scale-95 transition-all">Verify & Continue</button>
+              <button disabled={loading} className="w-full bg-[#7c5cfc] py-3.5 md:py-4 rounded-2xl font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-white active:scale-95 transition-all shadow-lg shadow-[#7c5cfc]/25 hover:bg-[#6b4dfa]">Verify & Continue</button>
             </motion.form>
           )}
 
           {step === 3 && (
             <motion.form key="s3" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} onSubmit={handleResetSubmit} className="space-y-6">
-               <div className="space-y-2">
-                <div className="w-12 h-12 bg-[#7c5cfc]/10 rounded-2xl flex items-center justify-center mb-4">
-                    <KeyRound className="text-[#7c5cfc]" size={24}/>
+              <div className="space-y-2">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#7c5cfc]/10 rounded-2xl flex items-center justify-center mb-4 border border-[#7c5cfc]/20 text-[#7c5cfc]">
+                  <KeyRound size={20} className="md:w-6 md:h-6" />
                 </div>
-                <h1 className="text-2xl font-black text-white uppercase tracking-tight">New Password</h1>
-                <p className="text-white/40 text-sm">Set a strong password to secure your MapFlow engine.</p>
+                <h1 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tight">New Password</h1>
+                <p className="text-slate-500 text-sm font-medium">Set a strong password to secure your MapFlow engine.</p>
               </div>
               <div className="relative">
-                <input type={showPass ? "text" : "password"} placeholder="••••••••" className="w-full bg-white/5 p-4 rounded-2xl text-white border border-white/10 outline-none focus:border-[#7c5cfc]/50" value={password} onChange={(e)=>setPassword(e.target.value)} required />
-                <button type="button" onClick={()=>setShowPass(!showPass)} className="absolute right-4 top-4 text-white/20 hover:text-white transition-colors">
-                    {showPass ? <EyeOff size={18}/> : <Eye size={18}/>}
+                <input type={showPass ? "text" : "password"} placeholder="••••••••" className="w-full bg-white p-3.5 md:p-4 rounded-2xl text-slate-900 border border-slate-200 outline-none focus:ring-2 focus:ring-[#7c5cfc]/20 focus:border-[#7c5cfc]/50 transition-all placeholder:text-slate-400 shadow-sm pr-12 text-sm" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
+                  {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
-              <button disabled={loading} className="w-full bg-[#7c5cfc] p-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] text-white active:scale-95 transition-all">Update Key & Secure Account</button>
+              <button disabled={loading} className="w-full bg-[#7c5cfc] py-3.5 md:py-4 rounded-2xl font-black text-[10px] md:text-[11px] uppercase tracking-[0.2em] text-white active:scale-95 transition-all shadow-lg shadow-[#7c5cfc]/25 hover:bg-[#6b4dfa]">Update Key & Secure Account</button>
             </motion.form>
           )}
         </AnimatePresence>

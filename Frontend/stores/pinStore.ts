@@ -5,7 +5,7 @@ import { pinsApi } from "@/api/pins";
 
 export interface Pin {
   id: number;
-  _id?: string; 
+  _id?: string;
   name: string;
   description: string;
   lat: number;
@@ -20,7 +20,7 @@ interface PinStore {
   loading: boolean;
   editingPinId: number | null;
   fetchPins: (userId?: string) => Promise<void>;
-  savePin: () => Promise<boolean>; 
+  savePin: () => Promise<boolean>;
   deletePin: (id: number) => Promise<void>;
   setPinForm: (data: any) => void;
   setEditingPin: (pin: Pin | null) => void;
@@ -35,7 +35,7 @@ export const usePinStore = create<PinStore>((set, get) => ({
   fetchPins: async (userId?: string) => {
     try {
       const res = await pinsApi.getAll(userId);
-      const pinsData = userId 
+      const pinsData = userId
         ? (res.data?.data?.data || res.data?.data || res.data)
         : (res.data?.data || res.data);
 
@@ -60,24 +60,22 @@ export const usePinStore = create<PinStore>((set, get) => ({
       };
 
       if (editingPinId) {
-        const res = await pinsApi.update(editingPinId, payload);
-        const updatedPinFromServer = res.data.data || res.data;
-        
-        set({ 
-          pins: pins.map((p) => (p.id === editingPinId ? updatedPinFromServer : p)),
-          editingPinId: null, 
+        await pinsApi.update(editingPinId, payload);
+        await get().fetchPins();
+
+        set({
+          editingPinId: null,
           pinForm: {},
           loading: false
         });
         return true;
       } else {
-        const res = await pinsApi.create(payload);
-        const newPinFromServer = res.data.data || res.data;
-        
-        set({ 
-          pins: [newPinFromServer, ...pins], 
+        await pinsApi.create(payload);
+        await get().fetchPins();
+
+        set({
           pinForm: {},
-          loading: false 
+          loading: false
         });
         return true;
       }
@@ -100,15 +98,15 @@ export const usePinStore = create<PinStore>((set, get) => ({
   },
 
   setPinForm: (data) => set((state) => ({ pinForm: { ...state.pinForm, ...data } })),
-  
+
   setEditingPin: (pin) => {
     if (pin) {
-      set({ 
-        editingPinId: pin.id, 
-        pinForm: { 
-          ...pin, 
-          categoryId: pin.categories && pin.categories[0]?.id ? pin.categories[0].id : pin.categoryId 
-        } 
+      set({
+        editingPinId: pin.id,
+        pinForm: {
+          ...pin,
+          categoryId: pin.categories && pin.categories[0]?.id ? pin.categories[0].id : pin.categoryId
+        }
       });
     } else {
       set({ editingPinId: null, pinForm: {} });
