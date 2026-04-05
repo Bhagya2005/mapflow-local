@@ -25,6 +25,18 @@ const SLIDER_DATA = [
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDarkTheme, setIsDarkTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const storedTheme = localStorage.getItem('mapflow-theme');
+      if (storedTheme !== null) {
+        return storedTheme === 'dark';
+      }
+      localStorage.setItem('mapflow-theme', 'dark');
+      return true;
+    }
+    return true;
+  });
+
   const router = useRouter();
 
   useEffect(() => {
@@ -34,16 +46,30 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     return () => clearInterval(timer);
   }, []);
 
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center sm:p-6 md:p-10 selection:bg-[#7c5cfc]/20 selection:text-[#7c5cfc] overflow-x-hidden">
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('mapflow-theme', isDarkTheme ? 'dark' : 'light');
+    }
+  }, [isDarkTheme]);
 
+  return (
+    <div className={`min-h-screen flex items-center justify-center sm:p-6 md:p-10 selection:bg-[#7c5cfc]/20 selection:text-[#7c5cfc] overflow-x-hidden transition-colors duration-500 ${
+      isDarkTheme ? 'bg-black text-white' : 'bg-slate-50 text-slate-900'
+    }`}>
+
+      {/* Hero-style Gradient Orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[30%] h-[30%] bg-[#7c5cfc]/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[30%] bg-[#7c5cfc]/5 blur-[120px] rounded-full" />
+        <div className={`absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[120px] pointer-events-none ${
+          isDarkTheme ? 'bg-purple-600/30' : 'bg-[#7c5cfc]/5'
+        }`} />
+        <div className={`absolute top-[20%] right-[-5%] w-[40%] h-[40%] rounded-full blur-[120px] pointer-events-none ${
+          isDarkTheme ? 'bg-blue-600/20' : 'bg-blue-500/5'
+        }`} />
       </div>
 
-      <div className="relative z-10 w-full max-w-[1100px] min-h-screen md:min-h-0 md:h-[700px] bg-white rounded-none sm:rounded-3xl md:rounded-[40px] shadow-2xl shadow-slate-200/60 overflow-hidden flex flex-col md:flex-row border-0 sm:border border-slate-200">
-
+      <div className={`relative z-10 w-full max-w-[1100px] min-h-screen md:min-h-0 md:h-[700px] rounded-none sm:rounded-3xl md:rounded-[40px] shadow-2xl overflow-hidden flex flex-col md:flex-row border-0 sm:border transition-colors duration-500 ${
+        isDarkTheme ? 'bg-gray-900 border-gray-700' : 'bg-white border-slate-200'
+      }`}>
         <div className="relative w-full md:w-[45%] h-[260px] md:h-full overflow-hidden border-b md:border-b-0 md:border-r border-slate-200 bg-slate-900">
 
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent opacity-90" />
@@ -105,11 +131,15 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </div>
         </div>
 
-        <div className="w-full md:w-[55%] min-h-[500px] md:h-full bg-white p-6 sm:p-8 md:p-16 flex flex-col justify-center relative overflow-y-auto">
+        <div className={`w-full md:w-[55%] min-h-[500px] md:h-full p-6 sm:p-8 md:p-16 flex flex-col justify-center relative overflow-y-auto transition-colors duration-500 ${
+          isDarkTheme ? 'bg-gray-900' : 'bg-white'
+        }`}>
 
           <button
             onClick={() => router.push("/")}
-            className="absolute top-8 right-8 cursor-pointer text-[11px] font-bold uppercase tracking-widest text-slate-400 hover:text-[#7c5cfc] flex items-center gap-1.5 transition-all group"
+            className={`absolute top-8 right-8 cursor-pointer text-[11px] font-bold uppercase tracking-widest flex items-center gap-1.5 transition-all group ${
+              isDarkTheme ? 'text-gray-400 hover:text-[#7c5cfc]' : 'text-slate-400 hover:text-[#7c5cfc]'
+            }`}
           >
             Back to website
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

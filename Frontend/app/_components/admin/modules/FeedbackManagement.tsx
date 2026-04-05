@@ -51,7 +51,7 @@ export default function FeedbackManagement() {
       datasets: [{
         label: "Ratings",
         data: counts,
-        backgroundColor: "rgba(99, 102, 241, 0.6)",
+        backgroundColor: "rgba(147, 51, 234, 0.6)",
         borderRadius: 5,
       }],
     };
@@ -59,14 +59,14 @@ export default function FeedbackManagement() {
 
   return (
     <div className="p-8 space-y-10">
-      <div className="grid md:grid-cols-4 gap-4 bg-zinc-900 p-4 rounded-xl border border-white/10">
+      <div className="grid md:grid-cols-4 gap-4 bg-black p-4 rounded-xl border border-white/10">
         <input
           placeholder="Search by title..."
-          className="bg-zinc-800 p-2 rounded border border-white/10 text-sm text-white focus:outline-none focus:border-indigo-500"
+          className="bg-gray-800 p-2 rounded border border-white/10 text-sm text-white focus:outline-none focus:border-purple-500"
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <select
-          className="bg-zinc-800 p-2 rounded border border-white/10 text-sm text-white"
+          className="bg-gray-800 p-2 rounded border border-white/10 text-sm text-white"
           value={category}
           onChange={(e) => { setCategory(e.target.value); setCurrentPage(1); }}
         >
@@ -75,7 +75,7 @@ export default function FeedbackManagement() {
           <option value="feature">Feature</option>
         </select>
         <select
-          className="bg-zinc-800 p-2 rounded border border-white/10 text-sm text-white"
+          className="bg-gray-800 p-2 rounded border border-white/10 text-sm text-white"
           value={status}
           onChange={(e) => { setStatus(e.target.value); setCurrentPage(1); }}
         >
@@ -86,15 +86,15 @@ export default function FeedbackManagement() {
         <button
           onClick={fetchFeedbacks}
           disabled={loading}
-          className="bg-indigo-600 rounded font-bold text-white hover:bg-indigo-500 transition-colors disabled:opacity-50"
+          className="bg-purple-600 rounded font-bold text-white hover:bg-purple-500 transition-colors disabled:opacity-50"
         >
           Refresh Data
         </button>
       </div>
 
-      <div className="bg-zinc-900 border border-white/10 rounded-xl overflow-hidden">
+      <div className="bg-black border border-white/10 rounded-xl overflow-hidden">
         <table className="w-full text-sm text-left">
-          <thead className="bg-white/5 text-zinc-400">
+          <thead className="bg-white/5 text-gray-400">
             <tr>
               <th className="p-4">Feedback</th>
               <th className="p-4">Type</th>
@@ -104,21 +104,21 @@ export default function FeedbackManagement() {
           </thead>
           <tbody className="divide-y divide-white/5">
             {loading ? (
-              <tr><td colSpan={4} className="p-10 text-center animate-pulse text-zinc-500">Loading...</td></tr>
+              <tr><td colSpan={4} className="p-10 text-center animate-pulse text-gray-500">Loading...</td></tr>
             ) : displayedFeedbacks.length === 0 ? (
-              <tr><td colSpan={4} className="p-10 text-center text-zinc-500">No feedbacks found</td></tr>
+              <tr><td colSpan={4} className="p-10 text-center text-gray-500">No feedbacks found</td></tr>
             ) : (
               displayedFeedbacks.map((f: any) => (
                 <tr key={f._id || f.id} className="hover:bg-white/5">
                   <td className="p-4">
                     <div className="text-white font-bold">{f.title || "No Title"}</div>
-                    <div className="text-xs text-zinc-500 truncate max-w-xs">{f.description}</div>
+                    <div className="text-xs text-gray-500 truncate max-w-xs">{f.description}</div>
                   </td>
-                  <td className="p-4 capitalize text-zinc-400">{f.feedbackType}</td>
+                  <td className="p-4 capitalize text-gray-400">{f.feedbackType}</td>
                   <td className="p-4 text-yellow-500">{"★".repeat(f.rating)}</td>
                   <td className="p-4">
                     <span className={`px-2 py-1 rounded-full text-[10px] uppercase font-bold ${
-                      f.status === 'resolved' ? 'bg-green-500/10 text-green-500' : 'bg-amber-500/10 text-amber-500'
+                      f.status === 'resolved' ? 'bg-purple-500/10 text-purple-400' : 'bg-purple-500/10 text-purple-300'
                     }`}>
                       {f.status || 'open'}
                     </span>
@@ -130,26 +130,26 @@ export default function FeedbackManagement() {
         </table>
 
         <div className="p-4 flex justify-between items-center bg-white/5 border-t border-white/10">
-          <span className="text-xs text-zinc-500">
+          <span className="text-xs text-gray-500">
             Page {currentPage} of {totalPages || 1}
           </span>
           <div className="flex gap-2">
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(prev => prev - 1)}
-              className="px-3 py-1 bg-zinc-800 rounded disabled:opacity-30 text-xs text-white"
+              className="px-3 py-1 bg-gray-800 rounded disabled:opacity-30 text-xs text-white"
             > Prev </button>
             <button
               disabled={currentPage >= totalPages}
               onClick={() => setCurrentPage(prev => prev + 1)}
-              className="px-3 py-1 bg-zinc-800 rounded disabled:opacity-30 text-xs text-white"
+              className="px-3 py-1 bg-gray-800 rounded disabled:opacity-30 text-xs text-white"
             > Next </button>
           </div>
         </div>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
-        <div className="bg-zinc-900 p-5 rounded-xl border border-white/10">
+        <div className="bg-black p-5 rounded-xl border border-white/10">
           <h4 className="text-white mb-4 text-sm font-bold">Rating Distribution</h4>
           <Bar data={ratingData} options={{ responsive: true, plugins: { legend: { display: false } } }} />
         </div>
